@@ -11,7 +11,7 @@ public class Dynamite : MonoBehaviour {
     private float explosionTimer = 5f;
     private bool countDownStarted = false;
     [SerializeField]
-    private int explosionRadius = 5;
+    private float explosionRadius = 5f;
 
     [SerializeField]
     private float useInterval = 3f;

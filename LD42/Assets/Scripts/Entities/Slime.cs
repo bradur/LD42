@@ -54,7 +54,6 @@ public class Slime : MonoBehaviour {
         {
             return;
         }
-        propagating = false;
     }
 
     private void Update()

@@ -4,6 +4,7 @@
 
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class MapGrid : MonoBehaviour {
 
@@ -39,13 +40,37 @@ public class MapGrid : MonoBehaviour {
 
     }
 
-    public void CreateExplosion(int x, int y, int explosionRadius)
+    public void CreateExplosion(int x, int y, float explosionRadius)
     {
         Debug.Log("Explosion at: [" + x + ", " + y + "]");
-        DrawFilledExplosionCircle(x, y, explosionRadius);
+        Explosion explosion = Instantiate(explosionPrefab);
+        explosion.transform.SetParent(explosionContainer, false);
+        explosion.Initialize(x, y, explosionRadius, this);
+        //DrawFilledExplosionCircle(x, y, explosionRadius);
     }
 
-    private void DrawFilledExplosionCircle (int startX, int startY, int radius)
+    public void ProcessExplosionTargets(List<Transform> targets)
+    {
+        foreach (Transform target in targets)
+        {
+            if (target.GetComponent<PlayerMovement>())
+            {
+                GameManager.main.KillPlayer();
+            }
+            Contents contents = GetContents((int)target.localPosition.x, (int)target.localPosition.y);
+            if (contents.slime)
+            {
+                contents.slime.Kill();
+            }
+            if (contents.wall)
+            {
+                // ?
+            }
+
+        }
+    }
+
+    /*private void DrawFilledExplosionCircle (int startX, int startY, int radius)
     {
         for (int y = -radius; y <= radius; y++)
         {
@@ -74,7 +99,7 @@ public class MapGrid : MonoBehaviour {
             explosion.Initialize(x, y);
             contents.explosion = explosion;
         }
-    }
+    }*/
 
     public bool PlaceWall(int x, int y)
     {

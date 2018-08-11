@@ -30,9 +30,9 @@ public class PlayerMovement : MonoBehaviour
 
     void Start()
     {
-        velocityUp = rb.velocity = new Vector3(0, speed, 0);
+        velocityUp = rb.velocity = new Vector3(0, 0, speed);
         velocityRight = rb.velocity = new Vector3(speed, 0, 0);
-        velocityDown = rb.velocity = new Vector3(0, -speed, 0);
+        velocityDown = rb.velocity = new Vector3(0, 0, -speed);
         velocityLeft = rb.velocity = new Vector3(-speed, 0, 0);
     }
 
@@ -54,19 +54,19 @@ public class PlayerMovement : MonoBehaviour
         {
             if (newDirection == Direction.North)
             {
-                transform.eulerAngles = new Vector3(0, 0, 0);
+                transform.localRotation = Quaternion.Euler(0, 0, 0);
             }
             else if (newDirection == Direction.East)
             {
-                transform.eulerAngles = new Vector3(0, 0, -90);
+                transform.localRotation = Quaternion.Euler(0, 0, -90);
             }
             else if (newDirection == Direction.South)
             {
-                transform.eulerAngles = new Vector3(0, 0, -180);
+                transform.localRotation = Quaternion.Euler(0, 0, -180);
             }
             else if (newDirection == Direction.West)
             {
-                transform.eulerAngles = new Vector3(0, 0, -270);
+                transform.localRotation = Quaternion.Euler(0, 0, -270);
             }
         }
     }

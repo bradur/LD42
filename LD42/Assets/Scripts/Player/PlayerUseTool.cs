@@ -35,7 +35,7 @@ public class PlayerUseTool : MonoBehaviour {
             if (currentTool == ToolType.Dynamite)
             {
                 Dynamite dynamite = Instantiate(dynamitePrefab);
-                dynamite.transform.SetParent(transform.parent);
+                dynamite.transform.SetParent(transform.parent, false);
                 dynamite.Initialize(
                     (int)(transform.localPosition.x + 0.5f),
                     (int)(transform.localPosition.y + 0.5f),
