@@ -11,6 +11,7 @@ public class MapGrid : MonoBehaviour {
     [SerializeField]
     private Slime slimePrefab;
     [SerializeField]
+    [Range(0.1f, 5f)]
     private float slimePropagationInterval = 1f;
     [SerializeField]
     private Wall wallPrefab;
@@ -28,6 +29,8 @@ public class MapGrid : MonoBehaviour {
 
     Contents[,] grid;
 
+    private int slimesCreated = 0;
+
     public void Initialize(int width, int height)
     {
         grid = new Contents[width,height];
@@ -42,31 +45,34 @@ public class MapGrid : MonoBehaviour {
 
     public void CreateExplosion(int x, int y, float explosionRadius)
     {
-        Debug.Log("Explosion at: [" + x + ", " + y + "]");
         Explosion explosion = Instantiate(explosionPrefab);
         explosion.transform.SetParent(explosionContainer, false);
         explosion.Initialize(x, y, explosionRadius, this);
         //DrawFilledExplosionCircle(x, y, explosionRadius);
     }
 
+    public void ProcessExplosionTarget(Transform target)
+    {
+        if (target.GetComponent<PlayerMovement>())
+        {
+            GameManager.main.KillPlayer();
+        }
+        Contents contents = GetContents((int)target.localPosition.x, (int)target.localPosition.y);
+        if (contents.slime)
+        {
+            contents.slime.Kill();
+        }
+        if (contents.wall)
+        {
+            // ?
+        }
+    }
+
     public void ProcessExplosionTargets(List<Transform> targets)
     {
         foreach (Transform target in targets)
         {
-            if (target.GetComponent<PlayerMovement>())
-            {
-                GameManager.main.KillPlayer();
-            }
-            Contents contents = GetContents((int)target.localPosition.x, (int)target.localPosition.y);
-            if (contents.slime)
-            {
-                contents.slime.Kill();
-            }
-            if (contents.wall)
-            {
-                // ?
-            }
-
+            ProcessExplosionTarget(target);
         }
     }
 
@@ -130,10 +136,13 @@ public class MapGrid : MonoBehaviour {
         Contents contents = GetContents(x, y);
         if (contents != null && contents.slime == null && contents.wall == null)
         {
+            slimesCreated += 1;
             Slime slime = Instantiate(slimePrefab);
+            slime.name = "Slime #" + slimesCreated;
             slime.transform.SetParent(slimeContainer, false);
             slime.Initialize(x, y, slimePropagationInterval, this);
             contents.slime = slime;
+            
             return true;
         }
         return false;

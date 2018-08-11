@@ -33,6 +33,7 @@ public class Explosion : MonoBehaviour {
     [SerializeField]
     private MeshFilter viewMeshFilter;
     private Mesh viewMesh;
+    private MeshCollider viewMeshCollider;
 
     [SerializeField]
     private int edgeResolveIterations = 5;
@@ -42,6 +43,9 @@ public class Explosion : MonoBehaviour {
 
     private List<Transform> visibleTargets = new List<Transform>();
     public List<Transform> VisibleTargets { get { return visibleTargets; } }
+
+    [SerializeField]
+    private ExplosionCollisionHandler collisionHandler;
 
     MapGrid mapGrid;
 
@@ -57,9 +61,16 @@ public class Explosion : MonoBehaviour {
             name = "View Mesh"
         };
         viewMeshFilter.mesh = viewMesh;
+        viewMeshCollider = viewMeshFilter.GetComponent<MeshCollider>();
+        collisionHandler.Initialize(this);
     }
 
     void Start () {
+    }
+
+    public void HandleCollision(Collision collision)
+    {
+        mapGrid.ProcessExplosionTarget(collision.collider.transform);
     }
 
     void Kill()
@@ -144,6 +155,7 @@ public class Explosion : MonoBehaviour {
         viewMesh.vertices = vertices;
         viewMesh.triangles = triangles;
         viewMesh.RecalculateNormals();
+        viewMeshCollider.sharedMesh = viewMesh;
     }
 
     EdgeInfo FindEdge(ViewCastInfo minViewCast, ViewCastInfo maxViewCast)

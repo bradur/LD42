@@ -38,11 +38,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void SetDirection(Direction newDirection)
     {
-        if (direction == newDirection)
-        {
-            direction = Direction.None;
-        }
-        else
+        if (direction != newDirection)
         {
             direction = newDirection;
         }
@@ -73,25 +69,29 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.UpArrow))
+        if (Input.GetKey(KeyCode.UpArrow))
         {
             SetRotation(Direction.North);
             SetDirection(Direction.North);
         }
-        if (Input.GetKeyDown(KeyCode.RightArrow))
+        else if (Input.GetKey(KeyCode.RightArrow))
         {
             SetRotation(Direction.East);
             SetDirection(Direction.East);
         }
-        if (Input.GetKeyDown(KeyCode.DownArrow))
+        else if (Input.GetKey(KeyCode.DownArrow))
         {
             SetRotation(Direction.South);
             SetDirection(Direction.South);
         }
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        else if (Input.GetKey(KeyCode.LeftArrow))
         {
             SetRotation(Direction.West);
             SetDirection(Direction.West);
+        }
+        else
+        {
+            SetDirection(Direction.None);
         }
     }
 

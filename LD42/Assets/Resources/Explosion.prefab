@@ -37,7 +37,9 @@ GameObject:
   - component: {fileID: 4968318037861580}
   - component: {fileID: 33211759376012740}
   - component: {fileID: 23082567430945870}
-  m_Layer: 0
+  - component: {fileID: 64979904095933752}
+  - component: {fileID: 114765110588717076}
+  m_Layer: 12
   m_Name: ViewMesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -113,6 +115,20 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1923820908165164}
   m_Mesh: {fileID: 0}
+--- !u!64 &64979904095933752
+MeshCollider:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1923820908165164}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 0
+  m_CookingOptions: 14
+  m_SkinWidth: 0.01
+  m_Mesh: {fileID: 0}
 --- !u!114 &114731273052552632
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -137,3 +153,15 @@ MonoBehaviour:
   viewMeshFilter: {fileID: 33211759376012740}
   edgeResolveIterations: 20
   edgeDistanceTreshold: 0.6
+  collisionHandler: {fileID: 114765110588717076}
+--- !u!114 &114765110588717076
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1923820908165164}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d6b3c895b4d0c945b6faefc4883f731, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
