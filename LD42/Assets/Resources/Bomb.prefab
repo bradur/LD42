@@ -53,8 +53,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53201622dae65674998371f9046e7745, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  explosionTimer: 0.4
-  explosionRadius: 1
+  explosionTimer: 0.6
+  explosionRadius: 1.5
   useInterval: 0.2
 --- !u!114 &114721609885644554
 MonoBehaviour:

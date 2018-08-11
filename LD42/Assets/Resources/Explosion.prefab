@@ -140,7 +140,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb909db88151f6242aa6e0d0c388e828, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lifeTime: 0.4
+  lifeTime: 0.2
   alive: 0
   viewAngle: 360
   targetMask:

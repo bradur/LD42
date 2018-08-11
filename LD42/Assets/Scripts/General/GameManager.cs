@@ -4,10 +4,14 @@
 
 using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
-public class GameManager : MonoBehaviour {
+public class GameManager : MonoBehaviour
+{
 
     public static GameManager main;
+
+    private bool playerIsDead = false;
 
     private void Awake()
     {
@@ -16,14 +20,44 @@ public class GameManager : MonoBehaviour {
 
     public void KillPlayer()
     {
-        Debug.Log("Oh no you were killed!");
+        UIManager.main.ShowPopup(
+            "You died!",
+            "Press R to retry level\n" + "Press Q to quit the game"
+        );
+        playerIsDead = true;
     }
 
-    void Start () {
-    
+    void Start()
+    {
+
     }
 
-    void Update () {
-    
+    public void RestartLevel()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public void Quit()
+    {
+        Application.Quit();
+    }
+
+    void Update()
+    {
+        if (playerIsDead)
+        {
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                playerIsDead = false;
+                UIManager.main.HidePopup();
+                RestartLevel();
+            }
+            else if (Input.GetKeyDown(KeyCode.Q))
+            {
+                playerIsDead = false;
+                UIManager.main.HidePopup();
+                Quit();
+            }
+        }
     }
 }
