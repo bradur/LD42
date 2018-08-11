@@ -30,6 +30,8 @@ public class LevelLoader : MonoBehaviour
     [SerializeField]
     private TextAsset debugMap;
 
+    [SerializeField]
+    private Transform world;
 
     void Start()
     {
@@ -51,7 +53,7 @@ public class LevelLoader : MonoBehaviour
             TiledMesh tiledMesh;
 
             tiledMesh = Instantiate(tiledMeshPrefab);
-            //tiledMesh.transform.parent = world.transform;
+            tiledMesh.transform.SetParent(world.transform, false);
             tiledMesh.Init(map.Width, map.Height, layer, groundMaterial, transform);
             //tiledMesh.transform.position = Vector3.zero;
             tiledMesh.GetComponent<MeshCollider>().enabled = false;
