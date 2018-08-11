@@ -53,7 +53,7 @@ public class LevelLoader : MonoBehaviour
             tiledMesh = Instantiate(tiledMeshPrefab);
             //tiledMesh.transform.parent = world.transform;
             tiledMesh.Init(map.Width, map.Height, layer, groundMaterial, transform);
-            tiledMesh.transform.position = Vector3.zero;
+            //tiledMesh.transform.position = Vector3.zero;
             tiledMesh.GetComponent<MeshCollider>().enabled = false;
 
         }
