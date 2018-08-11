@@ -6,7 +6,8 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class MapGrid : MonoBehaviour {
+public class MapGrid : MonoBehaviour
+{
 
     [SerializeField]
     private Slime slimePrefab;
@@ -29,14 +30,18 @@ public class MapGrid : MonoBehaviour {
 
     Contents[,] grid;
 
+    private PlayerMovement player;
+
     private int slimesCreated = 0;
 
-    public void Initialize(int width, int height)
+    public void Initialize(int width, int height, PlayerMovement player)
     {
-        grid = new Contents[width,height];
+        this.player = player;
+        grid = new Contents[width, height];
         for (int i = 0; i < grid.GetLength(0); i += 1)
         {
-            for (int j = 0; j < grid.GetLength(1); j += 1) {
+            for (int j = 0; j < grid.GetLength(1); j += 1)
+            {
                 grid[i, j] = new Contents();
             }
         }
@@ -131,19 +136,72 @@ public class MapGrid : MonoBehaviour {
         grid[x, y].slime = null;
     }
 
-    public bool AttemptToCreateSlime(int x, int y)
+    public bool PushPlayer(int playerX, int playerY, int originX, int originY, int x, int y)
+    {
+        bool yDif = y != originY;
+
+        for (int i = 0; i < 5; i += 1)
+        {
+            int offset = 0;
+            int otherOffset = 0;
+            if (i == 3)
+            {
+                otherOffset = -1;
+            } else if (i == 4)
+            {
+                otherOffset = 1;
+            }
+            if (i == 1 || i == 3)
+            {
+                offset = -1;
+            }
+            else if (i == 2 || i == 4)
+            {
+                offset = 1;
+            }
+            int targetX = playerX + (yDif ? offset : 0) + (!yDif ? otherOffset : 0) + (playerX - originX);
+            int targetY = playerY + (!yDif ? offset : 0) + (yDif ? otherOffset : 0) + (playerY - originY);
+            Contents contents = GetContents(targetX, targetY);
+            if (contents != null && contents.slime == null && contents.wall == null)
+            {
+                player.transform.localPosition = new Vector3(
+                    targetX,
+                    targetY,
+                    player.transform.localPosition.z
+                );
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public bool AttemptToCreateSlime(int originX, int originY, int x, int y)
     {
         Contents contents = GetContents(x, y);
         if (contents != null && contents.slime == null && contents.wall == null)
         {
-            slimesCreated += 1;
-            Slime slime = Instantiate(slimePrefab);
-            slime.name = "Slime #" + slimesCreated;
-            slime.transform.SetParent(slimeContainer, false);
-            slime.Initialize(x, y, slimePropagationInterval, this);
-            contents.slime = slime;
-            
-            return true;
+            bool canCreateSlime = true;
+            if (originX != -1 && originY != -1)
+            {
+                int playerX = (int)(player.transform.localPosition.x + 0.5f);
+                int playerY = (int)(player.transform.localPosition.y + 0.5f);
+                if (playerX == x && playerY == y)
+                {
+                    canCreateSlime = PushPlayer(playerX, playerY, originX, originY, x, y);
+                }
+            }
+            if (canCreateSlime)
+            {
+                slimesCreated += 1;
+                Slime slime = Instantiate(slimePrefab);
+                slime.name = "Slime #" + slimesCreated;
+                slime.transform.SetParent(slimeContainer, false);
+                slime.Initialize(x, y, slimePropagationInterval, this);
+                contents.slime = slime;
+                return true;
+            }
+
+            return false;
         }
         return false;
     }

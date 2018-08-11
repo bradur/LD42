@@ -38,19 +38,19 @@ public class Slime : MonoBehaviour {
 
     public void Propagate()
     {
-        if (mapGrid.AttemptToCreateSlime(xPos, yPos + 1))
+        if (mapGrid.AttemptToCreateSlime(xPos, yPos, xPos, yPos + 1))
         {
             return;
         }
-        if (mapGrid.AttemptToCreateSlime(xPos + 1, yPos))
+        if (mapGrid.AttemptToCreateSlime(xPos, yPos, xPos + 1, yPos))
         {
             return;
         }
-        if (mapGrid.AttemptToCreateSlime(xPos, yPos - 1))
+        if (mapGrid.AttemptToCreateSlime(xPos, yPos, xPos, yPos - 1))
         {
             return;
         }
-        if (mapGrid.AttemptToCreateSlime(xPos - 1, yPos))
+        if (mapGrid.AttemptToCreateSlime(xPos, yPos, xPos - 1, yPos))
         {
             return;
         }

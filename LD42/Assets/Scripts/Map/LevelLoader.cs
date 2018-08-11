@@ -13,7 +13,8 @@ enum LayerType
     None,
     Ground,
     Slime,
-    Wall
+    Wall,
+    Player
 }
 
 
@@ -24,7 +25,8 @@ public class LevelLoader : MonoBehaviour
         "None",
         "Ground",
         "Slime",
-        "Wall"
+        "Wall",
+        "Player"
     };
 
     [SerializeField]
@@ -42,6 +44,8 @@ public class LevelLoader : MonoBehaviour
     [SerializeField]
     private MapGrid mapGrid;
 
+    [SerializeField]
+    private PlayerMovement playerPrefab;
 
     void Start()
     {
@@ -56,7 +60,24 @@ public class LevelLoader : MonoBehaviour
     {
         XDocument mapX = XDocument.Parse(mapFile.text);
         TmxMap map = new TmxMap(mapX);
-        mapGrid.Initialize(map.Width, map.Height);
+        PlayerMovement player = Instantiate(playerPrefab);
+        for (int index = 0; index < map.ObjectGroups.Count; index += 1)
+        {
+            for (int oIndex = 0; oIndex < map.ObjectGroups[index].Objects.Count; oIndex += 1)
+            {
+                TmxObject tmxObject = map.ObjectGroups[index].Objects[oIndex];
+                int layerTypeIndex = System.Array.IndexOf(layerTypes, map.ObjectGroups[index].Properties["Type"]);
+                LayerType layerType = (LayerType)layerTypeIndex;
+                if (layerType == LayerType.Player)
+                {
+                    player.transform.SetParent(world, false);
+                    player.transform.localPosition = new Vector3((float)tmxObject.X / 64f, map.Height - (float)tmxObject.Y / 64f, 0);
+                    player.GetComponent<PlayerUseTool>().Initialize(mapGrid);
+                }
+                //SpawnObject(tmxObject, world.GetItemContainer().transform, map.Width, map.Height);
+            }
+        }
+        mapGrid.Initialize(map.Width, map.Height, player);
         for (int index = 0; index < map.Layers.Count; index += 1)
         {
             TmxLayer layer = map.Layers[index];
@@ -86,7 +107,7 @@ public class LevelLoader : MonoBehaviour
                         {
                             continue;
                         }
-                        mapGrid.AttemptToCreateSlime(x, y);
+                        mapGrid.AttemptToCreateSlime(-1, -1, x, y);
                     }
                 }
             }
@@ -109,14 +130,7 @@ public class LevelLoader : MonoBehaviour
                 }
             }
         }
-        for (int index = 0; index < map.ObjectGroups.Count; index += 1)
-        {
-            for (int oIndex = 0; oIndex < map.ObjectGroups[index].Objects.Count; oIndex += 1)
-            {
-                //TmxObjectGroup.TmxObject tmxObject = map.ObjectGroups[index].Objects[oIndex];
-                //SpawnObject(tmxObject, world.GetItemContainer().transform, map.Width, map.Height);
-            }
-        }
+
     }
 
 }

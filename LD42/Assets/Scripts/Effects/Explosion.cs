@@ -55,7 +55,7 @@ public class Explosion : MonoBehaviour {
         transform.localPosition = new Vector3(x, y, 0);
         alive = true;
         this.mapGrid = mapGrid;
-        StartCoroutine("FindTargetsWithDelay", 0.2f);
+        StartCoroutine("FindTargetsWithDelay", 0.05f);
         viewMesh = new Mesh
         {
             name = "View Mesh"
