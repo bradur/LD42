@@ -433,6 +433,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 700805422}
+  - component: {fileID: 700805423}
   m_Layer: 0
   m_Name: World
   m_TagString: Untagged
@@ -454,6 +455,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &700805423
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 700805421}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7fe846c4ff3fa6e43b559c247a53db60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slimePrefab: {fileID: 114924318040657674, guid: 2675b68f19650e94b918b899c89c4d3d,
+    type: 2}
 --- !u!1 &755337733
 GameObject:
   m_ObjectHideFlags: 0
@@ -536,6 +550,7 @@ MonoBehaviour:
   groundMaterial: {fileID: 2100000, guid: aab697f6305db7542a6c980902b5a5d9, type: 2}
   debugMap: {fileID: 4900000, guid: 5f65fda79ab8c8f41bb7fb0edb31d216, type: 3}
   world: {fileID: 700805422}
+  mapGrid: {fileID: 700805423}
 --- !u!4 &906081122
 Transform:
   m_ObjectHideFlags: 0

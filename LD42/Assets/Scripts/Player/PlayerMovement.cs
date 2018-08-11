@@ -48,22 +48,49 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    private void SetRotation(Direction newDirection)
+    {
+        if (direction != newDirection)
+        {
+            if (newDirection == Direction.North)
+            {
+                transform.eulerAngles = new Vector3(0, 0, 0);
+            }
+            else if (newDirection == Direction.East)
+            {
+                transform.eulerAngles = new Vector3(0, 0, -90);
+            }
+            else if (newDirection == Direction.South)
+            {
+                transform.eulerAngles = new Vector3(0, 0, -180);
+            }
+            else if (newDirection == Direction.West)
+            {
+                transform.eulerAngles = new Vector3(0, 0, -270);
+            }
+        }
+    }
+
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {
+            SetRotation(Direction.North);
             SetDirection(Direction.North);
         }
         if (Input.GetKeyDown(KeyCode.RightArrow))
         {
+            SetRotation(Direction.East);
             SetDirection(Direction.East);
         }
         if (Input.GetKeyDown(KeyCode.DownArrow))
         {
+            SetRotation(Direction.South);
             SetDirection(Direction.South);
         }
         if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
+            SetRotation(Direction.West);
             SetDirection(Direction.West);
         }
     }
