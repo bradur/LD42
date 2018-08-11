@@ -14,6 +14,17 @@ public class MapGrid : MonoBehaviour {
     [SerializeField]
     private Wall wallPrefab;
 
+    [SerializeField]
+    private Transform wallContainer;
+    [SerializeField]
+    private Transform slimeContainer;
+
+    [SerializeField]
+    private Transform explosionContainer;
+
+    [SerializeField]
+    private Explosion explosionPrefab;
+
     Contents[,] grid;
 
     public void Initialize(int width, int height)
@@ -28,13 +39,50 @@ public class MapGrid : MonoBehaviour {
 
     }
 
+    public void CreateExplosion(int x, int y, int explosionRadius)
+    {
+        Debug.Log("Explosion at: [" + x + ", " + y + "]");
+        DrawFilledExplosionCircle(x, y, explosionRadius);
+    }
+
+    private void DrawFilledExplosionCircle (int startX, int startY, int radius)
+    {
+        for (int y = -radius; y <= radius; y++)
+        {
+            for (int x = -radius; x <= radius; x++)
+            {
+                if (x * x + y * y < radius * radius + radius)
+                {
+                    ExplodeTile(startX + x, startY + y);
+                }
+            }
+
+        }
+    }
+
+    private void ExplodeTile(int x, int y)
+    {
+        Contents contents = GetContents(x, y);
+        if (contents != null && contents.explosion == null && contents.wall == null)
+        {
+            if (contents.slime)
+            {
+                contents.slime.Kill();
+            }
+            Explosion explosion = Instantiate(explosionPrefab);
+            explosion.transform.SetParent(explosionContainer, false);
+            explosion.Initialize(x, y);
+            contents.explosion = explosion;
+        }
+    }
+
     public bool PlaceWall(int x, int y)
     {
         Contents contents = GetContents(x, y);
         if (contents != null && contents.wall == null)
         {
             Wall wall = Instantiate(wallPrefab);
-            wall.transform.SetParent(transform, false);
+            wall.transform.SetParent(wallContainer, false);
             wall.Initialize(x, y);
             contents.wall = wall;
             return true;
@@ -58,7 +106,7 @@ public class MapGrid : MonoBehaviour {
         if (contents != null && contents.slime == null && contents.wall == null)
         {
             Slime slime = Instantiate(slimePrefab);
-            slime.transform.SetParent(transform, false);
+            slime.transform.SetParent(slimeContainer, false);
             slime.Initialize(x, y, slimePropagationInterval, this);
             contents.slime = slime;
             return true;
@@ -97,4 +145,5 @@ public class Contents : System.Object
 {
     public Slime slime;
     public Wall wall;
+    public Explosion explosion;
 }

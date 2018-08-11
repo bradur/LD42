@@ -42,6 +42,7 @@ public class LevelLoader : MonoBehaviour
     [SerializeField]
     private MapGrid mapGrid;
 
+
     void Start()
     {
         Init(debugMap);
