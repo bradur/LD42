@@ -468,6 +468,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   slimePrefab: {fileID: 114924318040657674, guid: 2675b68f19650e94b918b899c89c4d3d,
     type: 2}
+  slimePropagationInterval: 1
+  wallPrefab: {fileID: 114815888279379092, guid: 0d17a1621ad3d2d4a86131d05cf48078,
+    type: 2}
 --- !u!1 &755337733
 GameObject:
   m_ObjectHideFlags: 0

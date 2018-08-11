@@ -1,12 +1,12 @@
 - [ ] Slime
-    - [ ] Spread
+    - [x] Spread
     - [ ] Destruction
     - [ ] Kill player
     - [ ] Lifetime (how much $)
     - [ ] Concentrated slime
 
 - [ ] Player
-    - [ ] Movement
+    - [x] Movement
     - [ ] Upgrades
     - [ ] Use of tools
     - [ ] Death
@@ -32,7 +32,7 @@
 
 - [ ] Graphics
     - [ ] World
-        - [ ] Ground
+        - [x] Ground
         - [ ] Border
         - [ ] "can't place wall" area
     - [ ] Player
@@ -41,7 +41,7 @@
         - [ ] Walk
         - [ ] Use tool
     - [ ] Slime
-        - [ ] Spread
+        - [x] Spread
         - [ ] Concentrated slime
         - [ ] Burn
         - [ ] Explode

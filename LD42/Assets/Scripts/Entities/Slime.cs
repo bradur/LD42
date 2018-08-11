@@ -15,6 +15,11 @@ public class Slime : MonoBehaviour {
     private MapGrid mapGrid;
     private Slime slimePrefab;
 
+    private void Start()
+    {
+        GetComponent<SpriteRenderer>().receiveShadows = true;
+    }
+
     public void Initialize(int x, int y, float propagationInterval, MapGrid mapGrid)
     {
         transform.localPosition = new Vector3(x, y, 0);

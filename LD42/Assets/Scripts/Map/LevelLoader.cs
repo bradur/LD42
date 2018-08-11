@@ -89,6 +89,24 @@ public class LevelLoader : MonoBehaviour
                     }
                 }
             }
+            else if (layerType == LayerType.Wall)
+            {
+                int tilesX = map.Width;
+                int tilesY = map.Height;
+                for (int y = 0; y < tilesY; y++)
+                {
+                    for (int x = 0; x < tilesX; x++)
+                    {
+                        TmxLayerTile tile = layer.Tiles[(tilesY - y - 1) * tilesX + x];
+                        int tileId = tile.Gid - 1;
+                        if (tileId == -1)
+                        {
+                            continue;
+                        }
+                        mapGrid.PlaceWall(x, y);
+                    }
+                }
+            }
         }
         for (int index = 0; index < map.ObjectGroups.Count; index += 1)
         {

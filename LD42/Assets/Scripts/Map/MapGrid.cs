@@ -11,6 +11,8 @@ public class MapGrid : MonoBehaviour {
     private Slime slimePrefab;
     [SerializeField]
     private float slimePropagationInterval = 1f;
+    [SerializeField]
+    private Wall wallPrefab;
 
     Contents[,] grid;
 
@@ -26,6 +28,20 @@ public class MapGrid : MonoBehaviour {
 
     }
 
+    public bool PlaceWall(int x, int y)
+    {
+        Contents contents = GetContents(x, y);
+        if (contents != null && contents.wall == null)
+        {
+            Wall wall = Instantiate(wallPrefab);
+            wall.transform.SetParent(transform, false);
+            wall.Initialize(x, y);
+            contents.wall = wall;
+            return true;
+        }
+        return false;
+    }
+
     public void RemoveSlime(int x, int y)
     {
         if (x < 0 || x >= grid.GetLength(0) || y < 0 || y >= grid.GetLength(1))
@@ -39,7 +55,7 @@ public class MapGrid : MonoBehaviour {
     public bool AttemptToCreateSlime(int x, int y)
     {
         Contents contents = GetContents(x, y);
-        if (contents != null && contents.slime == null)
+        if (contents != null && contents.slime == null && contents.wall == null)
         {
             Slime slime = Instantiate(slimePrefab);
             slime.transform.SetParent(transform, false);
@@ -80,4 +96,5 @@ public class MapGrid : MonoBehaviour {
 public class Contents : System.Object
 {
     public Slime slime;
+    public Wall wall;
 }
