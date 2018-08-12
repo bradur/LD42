@@ -56,6 +56,7 @@ MonoBehaviour:
   explosionTimer: 0.8
   explosionRadius: 3
   useInterval: 1
+  toolType: 1
 --- !u!114 &114721609885644554
 MonoBehaviour:
   m_ObjectHideFlags: 1

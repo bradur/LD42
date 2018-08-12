@@ -15,6 +15,11 @@ public class GameManager : MonoBehaviour
 
     private PlayerMovement player;
 
+    [SerializeField]
+    private LevelLoader levelLoader;
+
+    private bool gameEnd = false;
+
     private void Awake()
     {
         main = this;
@@ -25,6 +30,23 @@ public class GameManager : MonoBehaviour
         PlayerUseTool playerUseTool = GetPlayerUseTool();
         playerUseTool.SetToolCounts(bombCount, dynamiteCount, blockCount);
         UIManager.main.SetToolCounts(bombCount, dynamiteCount, blockCount);
+        UIManager.main.SelectTool(ToolType.Bomb);
+    }
+
+    public void OpenNextLevel()
+    {
+        levelLoader.OpenNextLevel();
+    }
+
+    public void TheEnd()
+    {
+        UIManager.main.ShowPopup(
+            "The end",
+            "You managed to stop the slime from taking over the world!\n" +
+            "Thanks for playing!\n" +
+            "Press Q to quit the game\n"
+        );
+        gameEnd = true;
     }
 
     public void SetPlayer(PlayerMovement player)
@@ -51,14 +73,9 @@ public class GameManager : MonoBehaviour
         playerIsDead = true;
     }
 
-    void Start()
-    {
-
-    }
-
     public void RestartLevel()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        levelLoader.RestartLevel();
     }
 
     public void Quit()
@@ -66,21 +83,41 @@ public class GameManager : MonoBehaviour
         Application.Quit();
     }
 
+    bool escapeMenuOpen = false;
+
     void Update()
     {
-        if (playerIsDead)
+        if (playerIsDead || escapeMenuOpen)
         {
             if (Input.GetKeyDown(KeyCode.R))
             {
                 playerIsDead = false;
+                escapeMenuOpen = false;
                 UIManager.main.HidePopup();
                 RestartLevel();
             }
-            else if (Input.GetKeyDown(KeyCode.Q))
+        }
+        if (gameEnd || playerIsDead || escapeMenuOpen)
+        {
+            if (Input.GetKeyDown(KeyCode.Q))
             {
+                gameEnd = false;
+                escapeMenuOpen = false;
                 playerIsDead = false;
                 UIManager.main.HidePopup();
                 Quit();
+            }
+        }
+        if (!escapeMenuOpen)
+        {
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                escapeMenuOpen = true;
+                UIManager.main.ShowPopup(
+                    "Game paused",
+                    "Press R to restart\n" +
+                    "Press Q to quit"
+                );
             }
         }
     }

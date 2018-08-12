@@ -25,6 +25,7 @@ public class Inventory : MonoBehaviour
 
     public void SelectTool(ToolType toolType)
     {
+        DeselectAllTools();
         if (toolType == ToolType.Bomb)
         {
             bombItem.Select();
@@ -67,22 +68,19 @@ public class Inventory : MonoBehaviour
         {
             GetPlayerUseTool();
             playerUseTool.SwitchTool(ToolType.Bomb);
-            DeselectAllTools();
-            bombItem.Select();
+            SelectTool(ToolType.Bomb);
         }
         else if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             GetPlayerUseTool();
             playerUseTool.SwitchTool(ToolType.Dynamite);
-            DeselectAllTools();
-            dynamiteItem.Select();
+            SelectTool(ToolType.Dynamite);
         }
         else if (Input.GetKeyDown(KeyCode.Alpha3))
         {
             GetPlayerUseTool();
             playerUseTool.SwitchTool(ToolType.Block);
-            DeselectAllTools();
-            blockItem.Select();
+            SelectTool(ToolType.Block);
         }
     }
 

@@ -5,7 +5,8 @@
 using UnityEngine;
 using System.Collections;
 
-public class UIManager : MonoBehaviour {
+public class UIManager : MonoBehaviour
+{
 
     public static UIManager main;
 
@@ -35,6 +36,18 @@ public class UIManager : MonoBehaviour {
     public void UseTool(ToolType toolType)
     {
         inventory.UseTool(toolType);
+        if (toolType == ToolType.Block)
+        {
+            SoundManager.main.PlaySound(SoundType.PlaceBlock);
+        }
+        else if (toolType == ToolType.Dynamite)
+        {
+            SoundManager.main.PlaySound(SoundType.PlaceBlock);
+        }
+        else if (toolType == ToolType.Bomb)
+        {
+            SoundManager.main.PlaySound(SoundType.PlaceBomb);
+        }
     }
 
     public void SelectTool(ToolType toolType)
@@ -47,11 +60,13 @@ public class UIManager : MonoBehaviour {
         inventory.SetToolCounts(bombCount, dynamiteCount, blockCount);
     }
 
-    void Start () {
-    
+    void Start()
+    {
+
     }
 
-    void Update () {
-    
+    void Update()
+    {
+
     }
 }

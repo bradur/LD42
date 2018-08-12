@@ -74,6 +74,8 @@ MonoBehaviour:
     type: 2}
   bombPrefab: {fileID: 114569081328388156, guid: 8353bacef2a6ac149abb4624c8eaf638,
     type: 2}
+  wallPrefab: {fileID: 114815888279379092, guid: 0d17a1621ad3d2d4a86131d05cf48078,
+    type: 2}
   currentTool: 2
 --- !u!114 &114450675913279798
 MonoBehaviour:

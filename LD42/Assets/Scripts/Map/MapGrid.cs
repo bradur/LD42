@@ -23,6 +23,9 @@ public class MapGrid : MonoBehaviour
     private Transform slimeContainer;
 
     [SerializeField]
+    private Transform otherStuff;
+
+    [SerializeField]
     private Transform explosionContainer;
 
     [SerializeField]
@@ -32,10 +35,25 @@ public class MapGrid : MonoBehaviour
 
     private PlayerMovement player;
 
+    private bool waitingForNextLevelKeys = false;
+
     private int slimesCreated = 0;
+    private int slimeCount = 0;
+
+    private void DestroyChildren(Transform container)
+    {
+        foreach(Transform child in container) {
+            Destroy(child.gameObject);
+        }
+    }
 
     public void Initialize(int width, int height, PlayerMovement player)
     {
+        DestroyChildren(wallContainer);
+        DestroyChildren(explosionContainer);
+        DestroyChildren(otherStuff);
+        DestroyChildren(slimeContainer);
+        player.transform.SetParent(otherStuff, true);
         this.player = player;
         grid = new Contents[width, height];
         for (int i = 0; i < grid.GetLength(0); i += 1)
@@ -134,6 +152,29 @@ public class MapGrid : MonoBehaviour
             return;
         }
         grid[x, y].slime = null;
+        slimeCount -= 1;
+        Debug.Log("Slimes left: " + slimeCount);
+        if (slimeCount <= 0)
+        {
+            UIManager.main.ShowPopup(
+                "Slime cleared",
+                "Well done!\nPress Enter / N to go to the next level."
+            );
+            waitingForNextLevelKeys = true;
+        }
+    }
+
+    private void Update()
+    {
+        if (waitingForNextLevelKeys)
+        {
+            if (Input.GetKeyDown(KeyCode.Return))
+            {
+                waitingForNextLevelKeys = false;
+                UIManager.main.HidePopup();
+                GameManager.main.OpenNextLevel();
+            }
+        }
     }
 
     public bool PushPlayer(int playerX, int playerY, int originX, int originY, int x, int y)
@@ -143,24 +184,23 @@ public class MapGrid : MonoBehaviour
         for (int i = 0; i < 5; i += 1)
         {
             int offset = 0;
-            int otherOffset = 0;
             if (i == 3)
             {
-                otherOffset = -1;
+                offset = -2;
             } else if (i == 4)
             {
-                otherOffset = 1;
+                offset = 2;
             }
-            if (i == 1 || i == 3)
+            if (i == 1)
             {
                 offset = -1;
             }
-            else if (i == 2 || i == 4)
+            else if (i == 2)
             {
                 offset = 1;
             }
-            int targetX = playerX + (yDif ? offset : 0) + (!yDif ? otherOffset : 0) + (playerX - originX);
-            int targetY = playerY + (!yDif ? offset : 0) + (yDif ? otherOffset : 0) + (playerY - originY);
+            int targetX = playerX + (yDif ? offset : 0) + (playerX - originX);
+            int targetY = playerY + (!yDif ? offset : 0) + (playerY - originY);
             Contents contents = GetContents(targetX, targetY);
             if (contents != null && contents.slime == null && contents.wall == null)
             {
@@ -198,6 +238,7 @@ public class MapGrid : MonoBehaviour
                 slime.transform.SetParent(slimeContainer, false);
                 slime.Initialize(x, y, slimePropagationInterval, this);
                 contents.slime = slime;
+                slimeCount += 1;
                 return true;
             }
 

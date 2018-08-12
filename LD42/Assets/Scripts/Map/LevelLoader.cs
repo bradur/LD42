@@ -6,7 +6,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using TiledSharp;
 using System.Xml.Linq;
-
+using UnityEngine.SceneManagement;
 
 enum LayerType
 {
@@ -45,21 +45,53 @@ public class LevelLoader : MonoBehaviour
     private MapGrid mapGrid;
 
     [SerializeField]
+    private Transform otherStuff;
+
+    [SerializeField]
     private PlayerMovement playerPrefab;
+
+    [SerializeField]
+    private List<TextAsset> levels;
+
+    [SerializeField]
+    private int nextLevel = 0;
+    private int currentLevel = 0;
 
     void Start()
     {
-        Init(debugMap);
+        //Init(debugMap);
+        OpenNextLevel();
     }
 
     void Update()
     {
     }
 
+    public void OpenNextLevel()
+    {
+        if (nextLevel < levels.Count)
+        {
+            Init(levels[nextLevel]);
+            currentLevel = nextLevel;
+        }
+        else
+        {
+            GameManager.main.TheEnd();
+        }
+        nextLevel += 1;
+    }
+
+    public void RestartLevel()
+    {
+        Init(levels[currentLevel]);
+        //SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
     private void Init(TextAsset mapFile)
     {
         XDocument mapX = XDocument.Parse(mapFile.text);
         TmxMap map = new TmxMap(mapX);
+
         PlayerMovement player = Instantiate(playerPrefab);
         GameManager.main.SetPlayer(player);
         GameManager.main.SetToolCounts(
@@ -96,7 +128,7 @@ public class LevelLoader : MonoBehaviour
             if (layerType == LayerType.Ground)
             {
                 tiledMesh = Instantiate(tiledMeshPrefab);
-                tiledMesh.transform.SetParent(world.transform, false);
+                tiledMesh.transform.SetParent(otherStuff, false);
                 tiledMesh.Init(map.Width, map.Height, layer, groundMaterial, transform);
                 tiledMesh.GetComponent<MeshCollider>().enabled = false;
             }

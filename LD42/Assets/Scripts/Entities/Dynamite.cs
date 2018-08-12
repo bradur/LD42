@@ -5,7 +5,8 @@
 using UnityEngine;
 using System.Collections;
 
-public class Dynamite : MonoBehaviour {
+public class Dynamite : MonoBehaviour
+{
 
     [SerializeField]
     private float explosionTimer = 5f;
@@ -19,11 +20,15 @@ public class Dynamite : MonoBehaviour {
 
     private MapGrid mapGrid;
 
+    [SerializeField]
+    private ToolType toolType;
+
     private int xPos;
     private int yPos;
 
-    void Start () {
-    
+    void Start()
+    {
+
     }
 
     public void Initialize(int x, int y, MapGrid mapGrid)
@@ -38,17 +43,26 @@ public class Dynamite : MonoBehaviour {
     private void Explode()
     {
         mapGrid.CreateExplosion(xPos, yPos, explosionRadius);
+        if (toolType == ToolType.Dynamite)
+        {
+            SoundManager.main.PlaySound(SoundType.DynamiteExplode);
+        }
+        else if (toolType == ToolType.Bomb)
+        {
+            SoundManager.main.PlaySound(SoundType.BombExplode);
+        }
         Destroy(gameObject);
     }
 
-    void Update () {
+    void Update()
+    {
         if (countDownStarted)
         {
             explosionTimer -= Time.deltaTime;
             if (explosionTimer <= 0f)
             {
                 Explode();
-            } 
+            }
         }
     }
 }
