@@ -12,6 +12,9 @@ public class UIManager : MonoBehaviour {
     [SerializeField]
     private Popup popup;
 
+    [SerializeField]
+    private Inventory inventory;
+
     private void Awake()
     {
         main = this;
@@ -27,6 +30,21 @@ public class UIManager : MonoBehaviour {
     {
         Time.timeScale = 1f;
         popup.Hide();
+    }
+
+    public void UseTool(ToolType toolType)
+    {
+        inventory.UseTool(toolType);
+    }
+
+    public void SelectTool(ToolType toolType)
+    {
+        inventory.SelectTool(toolType);
+    }
+
+    public void SetToolCounts(int bombCount, int dynamiteCount, int blockCount)
+    {
+        inventory.SetToolCounts(bombCount, dynamiteCount, blockCount);
     }
 
     void Start () {

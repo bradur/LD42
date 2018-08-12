@@ -8,6 +8,10 @@ using System.Collections;
 public class Wall : MonoBehaviour
 {
 
+    [SerializeField]
+    private float useInterval = 1f;
+    public float UseInterval { get { return useInterval; } }
+
     public void Initialize(int x, int y)
     {
         transform.localPosition = new Vector3(x, y, 0);

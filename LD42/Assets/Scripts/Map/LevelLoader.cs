@@ -61,6 +61,13 @@ public class LevelLoader : MonoBehaviour
         XDocument mapX = XDocument.Parse(mapFile.text);
         TmxMap map = new TmxMap(mapX);
         PlayerMovement player = Instantiate(playerPrefab);
+        GameManager.main.SetPlayer(player);
+        GameManager.main.SetToolCounts(
+            Tools.IntParseFast(map.Properties["Bombs"]),
+            Tools.IntParseFast(map.Properties["Dynamites"]),
+            Tools.IntParseFast(map.Properties["Blocks"])
+        );
+
         for (int index = 0; index < map.ObjectGroups.Count; index += 1)
         {
             for (int oIndex = 0; oIndex < map.ObjectGroups[index].Objects.Count; oIndex += 1)

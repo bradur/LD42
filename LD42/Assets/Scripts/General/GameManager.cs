@@ -13,9 +13,33 @@ public class GameManager : MonoBehaviour
 
     private bool playerIsDead = false;
 
+    private PlayerMovement player;
+
     private void Awake()
     {
         main = this;
+    }
+
+    public void SetToolCounts(int bombCount, int dynamiteCount, int blockCount)
+    {
+        PlayerUseTool playerUseTool = GetPlayerUseTool();
+        playerUseTool.SetToolCounts(bombCount, dynamiteCount, blockCount);
+        UIManager.main.SetToolCounts(bombCount, dynamiteCount, blockCount);
+    }
+
+    public void SetPlayer(PlayerMovement player)
+    {
+        this.player = player;
+    }
+
+    public PlayerMovement GetPlayer()
+    {
+        return player;
+    }
+
+    public PlayerUseTool GetPlayerUseTool()
+    {
+        return player.GetComponent<PlayerUseTool>();
     }
 
     public void KillPlayer()
