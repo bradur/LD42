@@ -22,11 +22,28 @@ public class SoundManager : MonoBehaviour
     [SerializeField]
     private List<GameSound> sounds = new List<GameSound>();
 
+    [SerializeField]
+    private AudioSource musicSource;
+
     private bool sfxMuted = false;
 
     void Awake()
     {
         main = this;
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            if (musicSource.isPlaying)
+            {
+                musicSource.Pause();
+            } else
+            {
+                musicSource.UnPause();
+            }
+        }
     }
 
     private AudioSource GetGameSound(GameSound gameSound)

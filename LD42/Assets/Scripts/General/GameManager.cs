@@ -108,16 +108,22 @@ public class GameManager : MonoBehaviour
                 Quit();
             }
         }
-        if (!escapeMenuOpen)
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (Input.GetKeyDown(KeyCode.Escape))
+            if (!escapeMenuOpen)
             {
                 escapeMenuOpen = true;
                 UIManager.main.ShowPopup(
                     "Game paused",
                     "Press R to restart\n" +
-                    "Press Q to quit"
+                    "Press Q to quit\n" +
+                    "Esc to resume game"
                 );
+            }
+            else
+            {
+                escapeMenuOpen = false;
+                UIManager.main.HidePopup();
             }
         }
     }

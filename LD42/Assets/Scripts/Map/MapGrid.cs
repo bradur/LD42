@@ -165,7 +165,7 @@ public class MapGrid : MonoBehaviour
     {
         if (waitingForNextLevelKeys)
         {
-            if (Input.GetKeyDown(KeyCode.Return))
+            if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.N))
             {
                 waitingForNextLevelKeys = false;
                 UIManager.main.HidePopup();
