@@ -42,7 +42,7 @@ public class UIManager : MonoBehaviour
         }
         else if (toolType == ToolType.Dynamite)
         {
-            SoundManager.main.PlaySound(SoundType.PlaceBlock);
+            SoundManager.main.PlaySound(SoundType.PlaceDynamite);
         }
         else if (toolType == ToolType.Bomb)
         {

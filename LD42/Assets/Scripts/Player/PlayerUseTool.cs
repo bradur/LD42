@@ -92,14 +92,12 @@ public class PlayerUseTool : MonoBehaviour
             else if (currentTool == ToolType.Block && blockCount > 0)
             {
                 blockCount -= 1;
-                Wall wall = Instantiate(wallPrefab);
-                wall.transform.SetParent(transform.parent, false);
-                wall.Initialize(
+                toolUseTimer = wallPrefab.UseInterval;
+                UIManager.main.UseTool(currentTool);
+                mapGrid.PlaceWall(
                     (int)(transform.localPosition.x + 0.5f),
                     (int)(transform.localPosition.y + 0.5f)
                 );
-                toolUseTimer = wall.UseInterval;
-                UIManager.main.UseTool(currentTool);
             }
         }
     }

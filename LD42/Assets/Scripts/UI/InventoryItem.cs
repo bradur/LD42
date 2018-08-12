@@ -26,7 +26,7 @@ public class InventoryItem : MonoBehaviour {
     private Color originalIconBackground;
     private Color originalKeyBackground;
 
-    private void Start()
+    private void Awake()
     {
         originalIconBackground = iconBackground.color;
         originalKeyBackground = keyBackground.color;

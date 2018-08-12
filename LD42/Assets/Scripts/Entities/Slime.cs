@@ -32,8 +32,8 @@ public class Slime : MonoBehaviour {
 
     public void Kill ()
     {
-        mapGrid.RemoveSlime(xPos, yPos);
         Destroy(gameObject);
+        mapGrid.RemoveSlime(xPos, yPos);
     }
 
     public void Propagate()

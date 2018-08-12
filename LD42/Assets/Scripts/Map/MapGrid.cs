@@ -38,7 +38,6 @@ public class MapGrid : MonoBehaviour
     private bool waitingForNextLevelKeys = false;
 
     private int slimesCreated = 0;
-    private int slimeCount = 0;
 
     private void DestroyChildren(Transform container)
     {
@@ -64,6 +63,11 @@ public class MapGrid : MonoBehaviour
             }
         }
 
+    }
+
+    public void Activate()
+    {
+        activated = true;
     }
 
     public void CreateExplosion(int x, int y, float explosionRadius)
@@ -152,18 +156,11 @@ public class MapGrid : MonoBehaviour
             return;
         }
         grid[x, y].slime = null;
-        slimeCount -= 1;
-        Debug.Log("Slimes left: " + slimeCount);
-        if (slimeCount <= 0)
-        {
-            UIManager.main.ShowPopup(
-                "Slime cleared",
-                "Well done!\nPress Enter / N to go to the next level."
-            );
-            waitingForNextLevelKeys = true;
-        }
     }
 
+    private float checkSlimesInterval = 0.5f;
+    private float checkSlimeTimer = 0f;
+    private bool activated = false;
     private void Update()
     {
         if (waitingForNextLevelKeys)
@@ -173,6 +170,23 @@ public class MapGrid : MonoBehaviour
                 waitingForNextLevelKeys = false;
                 UIManager.main.HidePopup();
                 GameManager.main.OpenNextLevel();
+            }
+        }
+        if (activated)
+        {
+            checkSlimeTimer += Time.deltaTime;
+            if (checkSlimeTimer >= checkSlimesInterval)
+            {
+                if (slimeContainer.childCount <= 0)
+                {
+                    activated = false;
+                    UIManager.main.ShowPopup(
+                        "Slime cleared",
+                        "Well done!\nPress Enter / N to go to the next level."
+                    );
+                    waitingForNextLevelKeys = true;
+                }
+                checkSlimeTimer = 0f;
             }
         }
     }
@@ -238,7 +252,6 @@ public class MapGrid : MonoBehaviour
                 slime.transform.SetParent(slimeContainer, false);
                 slime.Initialize(x, y, slimePropagationInterval, this);
                 contents.slime = slime;
-                slimeCount += 1;
                 return true;
             }
 

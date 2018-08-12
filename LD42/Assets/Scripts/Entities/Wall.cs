@@ -12,8 +12,18 @@ public class Wall : MonoBehaviour
     private float useInterval = 1f;
     public float UseInterval { get { return useInterval; } }
 
+    [SerializeField]
+    private float activateColliderDelay = 0.2f;
+
+    private BoxCollider boxCollider;
+
+    private bool waitForColliderActivation = false;
+
     public void Initialize(int x, int y)
     {
+        waitForColliderActivation = true;
+        boxCollider = GetComponent<BoxCollider>();
+        boxCollider.enabled = false;
         transform.localPosition = new Vector3(x, y, 0);
     }
 
@@ -24,6 +34,14 @@ public class Wall : MonoBehaviour
 
     void Update()
     {
-
+        if (waitForColliderActivation)
+        {
+            activateColliderDelay -= Time.deltaTime;
+            if (activateColliderDelay <= 0f)
+            {
+                boxCollider.enabled = true;
+                waitForColliderActivation = false;
+            }
+        }
     }
 }

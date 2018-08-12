@@ -169,6 +169,7 @@ public class LevelLoader : MonoBehaviour
                 }
             }
         }
+        mapGrid.Activate();
 
     }
 

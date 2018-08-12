@@ -55,7 +55,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   explosionTimer: 0.6
   explosionRadius: 1.5
-  useInterval: 0.2
+  useInterval: 0.1
   toolType: 2
 --- !u!114 &114721609885644554
 MonoBehaviour:
