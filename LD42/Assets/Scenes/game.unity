@@ -2271,10 +2271,14 @@ MonoBehaviour:
   playerPrefab: {fileID: 114450675913279798, guid: 7191bed5af60e354fb5dfde43a08dfb8,
     type: 2}
   levels:
-  - {fileID: 4900000, guid: 5f65fda79ab8c8f41bb7fb0edb31d216, type: 3}
+  - {fileID: 4900000, guid: 4fb68ad483b75b240afc98dd9be46cc6, type: 3}
+  - {fileID: 4900000, guid: 02a165d8e7df06643beeef8ab57464be, type: 3}
+  - {fileID: 4900000, guid: ca3c320f2232b824d8ab6b8d3cdf770c, type: 3}
   - {fileID: 4900000, guid: b4fe317c1e2ca524cb3b86a2889db806, type: 3}
+  - {fileID: 4900000, guid: 5f65fda79ab8c8f41bb7fb0edb31d216, type: 3}
   - {fileID: 4900000, guid: 6160d7dc01fb6694b85cddb1ed8be0bc, type: 3}
-  nextLevel: 2
+  - {fileID: 4900000, guid: 27a9aa6ea72e09f4198986ae920f42b7, type: 3}
+  nextLevel: 0
 --- !u!4 &906081122
 Transform:
   m_ObjectHideFlags: 0
